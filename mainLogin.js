@@ -61,14 +61,28 @@ if( !validarNombre(nombre)){
 
 var respuesta=await fetch ("php/Usuario/registrarUsuario.php",{
    method: 'POST',
-   body:datos
+   body:datos 
 });
-Swal.fire({
-  icon: 'success',
-  title: 'EXITO',
-  text: 'RESPUESTA '+ respuesta,
-  footer: 'CRUD CONTACTOS'
-})
 
+var resultado=await respuesta.json();
 
+if(resultado.success==true){
+  Swal.fire({
+    icon: 'success',
+    title: 'ÉXITO...',
+    text: resultado.mensaje,
+    footer: 'CRUD CONTACTOS'
+  })
+  document.querySelector("#formRegistrar").reset();
+setTimeout(()=>{
+  window.location.href="index.html";
+},2000);
+}else{
+  Swal.fire({
+    icon: 'error',
+    title: 'ERROR...',
+    text: resultado.mensaje,
+    footer: 'CRUD CONTACTOS'
+  })
+}
 }
